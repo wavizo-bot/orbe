@@ -1,5 +1,5 @@
 import * as Papa from "papaparse";
-import * as XLSX from "sheetjs";
+import * as XLSX from "xlsx";
 import { compress, decompress } from "fflate";
 import {
   Aluno,
@@ -290,15 +290,15 @@ export async function importarDeZIP(
     });
 
     // Processa fotos
-    for (const [chave, dados] of Object.entries(dados)) {
+    for (const [chave, bytes] of Object.entries(dados)) {
       if (chave.startsWith("fotos/")) {
         const IDunico = chave.replace("fotos/", "").split(".")[0];
-        const blob = new Blob([dados]);
+        const blob = new Blob([bytes.buffer as ArrayBuffer]);
         await db.fotos.put({ IDunico, dados: blob });
       }
       if (chave.startsWith("institucional/")) {
         const nome = chave.replace("institucional/", "").split(".")[0];
-        const blob = new Blob([dados]);
+        const blob = new Blob([bytes.buffer as ArrayBuffer]);
         await db.imagensInstitucionais.put({ nome, dados: blob });
       }
     }

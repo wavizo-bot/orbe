@@ -339,7 +339,9 @@ function setupFotos() {
       const input = document.getElementById(
         "upload-fotos"
       ) as HTMLInputElement;
-      await processarFotos(input.files);
+      if (input.files) {
+        await processarFotos(input.files);
+      }
       input.value = "";
     });
 
@@ -349,7 +351,9 @@ function setupFotos() {
       const input = document.getElementById(
         "upload-institucional"
       ) as HTMLInputElement;
-      await processarFotos(input.files, "institucional");
+      if (input.files) {
+        await processarFotos(input.files, "institucional");
+      }
       input.value = "";
     });
 
@@ -397,8 +401,8 @@ function setupMensagens() {
   // Remover primeira mensagem
   container
     .querySelector(".btn-remover-msg")!
-    .addEventListener("click", function () {
-      (this as HTMLElement).parentElement!.remove();
+    .addEventListener("click", function (this: HTMLElement) {
+      this.parentElement!.remove();
     });
 }
 
