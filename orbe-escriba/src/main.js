@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { importarDeTexto, importarDePlanilha, exportarParaZIP, importarDeZIP, } from "./import-export";
+import { importarDeTexto, importarDePlanilha, exportarParaZIP, importarDeZIP, importarDoSeedJSON, } from "./import-export";
 import { VERSAO_ORBE } from "@orbe/constantes";
 // ==== Estado Global ====
 let telaAtual = "menu-principal";
@@ -300,6 +300,32 @@ function setupMensagens() {
     });
 }
 function setupExportacao() {
+    // Botão para importar dados do seed (500 alunos)
+    document
+        .getElementById("btn-importar-seed")
+        .addEventListener("click", async () => {
+        abrirModal("Importar 500 Alunos Fictícios", "Deseja importar os 500 alunos fictícios gerados pelo script de seed? Isso incluirá também 10 professoras e 10 auxiliares.", async () => {
+            try {
+                const response = await fetch("./seed-data.json");
+                if (!response.ok) {
+                    mostrarBanner("Arquivo seed-data.json não encontrado", "erro");
+                    return;
+                }
+                const dadosSeed = await response.json();
+                const resultado = await importarDoSeedJSON(dadosSeed);
+                if (resultado.sucesso) {
+                    mostrarBanner("500 alunos importados com sucesso!");
+                    await atualizarEstatisticas();
+                }
+                else {
+                    mostrarBanner(resultado.erro || "Erro ao importar", "erro");
+                }
+            }
+            catch (e) {
+                mostrarBanner(`Erro: ${String(e)}`, "erro");
+            }
+        }, "Importar", "Cancelar");
+    });
     document
         .getElementById("btn-senha-export")
         .addEventListener("click", () => {

@@ -16,6 +16,10 @@
     "preview": "concurrently \"npm run preview -w orbe-escriba\" \"npm run preview -w orbe-app\" \"npm run preview -w orbe-arauto\" \"npm run preview -w orbe-alvazir\""
   },
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "tsx": "^4.23.15"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.11.1"
   }
 }

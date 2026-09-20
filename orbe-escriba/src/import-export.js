@@ -197,6 +197,58 @@ async function detectorExtensaoImagem(blob) {
     return null;
 }
 /**
+ * Importa dados diretamente do JSON gerado pelo seed
+ */
+export async function importarDoSeedJSON(dadosSeed) {
+    try {
+        // Mapeia professores do formato seed para o formato do sistema
+        const professorasMapeadas = dadosSeed.professoras.map((p) => ({
+            id: p.id,
+            nome: p.nome,
+            email: p.email || "",
+            telefone: p.telefone || "",
+        }));
+        // Mapeia auxiliares
+        const auxiliaresMapeados = dadosSeed.auxiliares.map((a) => ({
+            id: a.id,
+            nome: a.nome,
+            email: a.email || "",
+            telefone: a.telefone || "",
+        }));
+        // Mapeia alunos do formato seed para o formato do sistema
+        const alunosMapeados = dadosSeed.alunos.map((aluno) => ({
+            IDunico: aluno.IDunico,
+            IDescolar: aluno.IDescolar,
+            nome: aluno.nome,
+            info_1: aluno.observacoes || "",
+            info_2: "",
+            nome_mae: "",
+            nome_pai: "",
+            tel1: "",
+            tel2: "",
+            dn: "",
+            ano: String(aluno.ano),
+            sala: aluno.turma,
+            turno: aluno.turno,
+            id_professora: aluno.professoraId,
+            id_auxiliar: aluno.auxiliarId,
+            tem_foto: false,
+        }));
+        // Carrega no banco
+        await db.carregarDoJSON({
+            alunos: alunosMapeados,
+            professoras: professorasMapeadas,
+            auxiliares: auxiliaresMapeados,
+            mensagens: dadosSeed.mensagens || [],
+            config: dadosSeed.config || undefined,
+        });
+        return { sucesso: true };
+    }
+    catch (e) {
+        return { sucesso: false, erro: `Erro ao importar dados: ${String(e)}` };
+    }
+}
+/**
  * Importa ZIP (para app consumidor)
  */
 export async function importarDeZIP(arquivo) {
