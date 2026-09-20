@@ -1,0 +1,13 @@
+{
+  "name": "@orbe/compartilhado",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./tipos": "./dist/tipos/index.js",
+    "./constantes": "./dist/constantes/index.js",
+    "./algoritmo-senha": "./dist/algoritmo-senha/index.js"
+  }
+}

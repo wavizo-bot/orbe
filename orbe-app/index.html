@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Orbe App - Consulta e Conferência</title>
+    <link rel="stylesheet" href="src/styles/main.css" />
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    <!-- Tela de Autenticação -->
+    <div id="tela-auth" class="tela">
+      <div class="container" style="display: flex; flex-direction: column; justify-content: center; height: 100vh;">
+        <h1 style="text-align: center; margin-bottom: 40px;">Orbe App</h1>
+        
+        <div style="background: white; padding: 24px; border-radius: 8px; border: 1px solid #ddd;">
+          <h2 style="text-align: center; margin-bottom: 24px;">Autenticação</h2>
+          
+          <div class="form-row">
+            <label>Senha do dia:</label>
+            <div style="display: flex; gap: 8px;">
+              <input 
+                type="text" 
+                id="auth-senha-exibida" 
+                disabled 
+                style="flex: 1; background: #f5f5f5;"
+              />
+              <button id="btn-copiar-senha" class="btn-acao" title="Copiar">📝</button>
+              <button id="btn-whatsapp-suporte" class="btn-acao" title="Contatar suporte">📲</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label>Contra-senha (4 caracteres):</label>
+            <div style="display: flex; gap: 8px;">
+              <input 
+                type="text" 
+                id="auth-contrassenha" 
+                maxlength="8" 
+                placeholder="Digite aqui"
+                style="flex: 1;"
+              />
+              <button id="btn-colar-contrassenha" class="btn-acao" title="Colar">↘️</button>
+              <button id="btn-validar" class="btn-acao" title="Validar">✅</button>
+            </div>
+          </div>
+
+          <div id="auth-aviso" style="color: #f44336; margin-top: 8px; display: none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela Menu -->
+    <div id="tela-menu" class="tela escondida">
+      <div class="container">
+        <div id="menu-imagens" style="margin-bottom: 24px;"></div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+          <button class="btn-primary" data-tela="alunos">👥 Alunos</button>
+          <button class="btn-primary" data-tela="grupos">👤 Grupos</button>
+          <button class="btn-primary" data-tela="config">⚙️ Config</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela Alunos -->
+    <div id="tela-alunos" class="tela escondida">
+      <div class="container">
+        <button class="btn-voltar" data-voltar="menu">⬅️ VOLTAR</button>
+        
+        <div class="barra-topo">
+          <button id="btn-ajuda-busca">❓</button>
+          <input 
+            type="text" 
+            id="input-busca-alunos" 
+            placeholder="Digite o nome do aluno aqui"
+            style="flex: 1;"
+          />
+          <button id="btn-limpar-busca">❌</button>
+        </div>
+
+        <div id="historico-busca" class="historico-busca"></div>
+
+        <div id="lista-alunos" class="cartao" style="padding: 0;">
+          <!-- Cartões de alunos aqui -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Tela Perfil -->
+    <div id="tela-perfil" class="tela escondida">
+      <div class="container">
+        <button class="btn-voltar" data-voltar="alunos">⬅️ VOLTAR</button>
+        
+        <div id="perfil-conteudo"></div>
+      </div>
+    </div>
+
+    <!-- Tela Grupos -->
+    <div id="tela-grupos" class="tela escondida">
+      <div class="container">
+        <button class="btn-voltar" data-voltar="menu">⬅️ VOLTAR</button>
+        <button class="btn-danger" id="btn-apagar-filtros" style="float: right; margin-bottom: 16px;">❌ APAGAR</button>
+        
+        <h2>Filtros</h2>
+
+        <div class="form-row">
+          <label>Sala:</label>
+          <div id="filtro-salas" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+
+        <div class="form-row">
+          <label>Ano:</label>
+          <div id="filtro-anos" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+
+        <div class="form-row">
+          <label>Turno:</label>
+          <div id="filtro-turnos" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+
+        <div class="form-row">
+          <label>Professora:</label>
+          <div id="filtro-professoras" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+
+        <button id="btn-mostrar-alunos" class="btn-primary">MOSTRAR 0 ALUNOS</button>
+      </div>
+    </div>
+
+    <!-- Tela Conferência -->
+    <div id="tela-conferencia" class="tela escondida">
+      <div class="container">
+        <button class="btn-voltar" data-voltar="grupos">⬅️ VOLTAR</button>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+          <button id="btn-copiar-conferencia" class="btn-acao" title="Copiar">📝</button>
+          <button id="btn-enviar-conferencia" class="btn-acao" title="Enviar">📲</button>
+          <button id="btn-apagar-conferencia" class="btn-danger">❌ APAGAR</button>
+        </div>
+
+        <div id="conferencia-lista" class="conferencia-lista"></div>
+      </div>
+    </div>
+
+    <!-- Tela Configurações -->
+    <div id="tela-config" class="tela escondida">
+      <div class="container">
+        <button class="btn-voltar" data-voltar="menu">⬅️ VOLTAR</button>
+        
+        <h2>Configurações</h2>
+
+        <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+          <button class="btn-secondary" id="btn-aparencia" style="text-align: left;">🎨 Aparência</button>
+          <button class="btn-secondary" id="btn-arauto" style="text-align: left;">📨 Arauto</button>
+          <button class="btn-secondary" id="btn-importar-zip" style="text-align: left;">📥 Importar</button>
+          <button class="btn-secondary" id="btn-senha-config" style="text-align: left;">🔢 Senha</button>
+          <button class="btn-secondary" id="btn-autenticar-novamente" style="text-align: left;">🛡️ Autenticar</button>
+          <button class="btn-danger" id="btn-trancar" style="text-align: left; display: none;">🔒 Trancar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer id="rodape" class="rodape">
+      Orbe Escolar versão 1.0.0 com banco de dados teste - Contato 11 978831938
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal escondido">
+      <div class="modal-content">
+        <h2 id="modal-titulo"></h2>
+        <div id="modal-corpo"></div>
+        <div class="modal-botoes">
+          <button id="modal-cancelar" class="btn-secondary">Cancelar</button>
+          <button id="modal-confirmar" class="btn-primary">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner -->
+    <div id="banner" class="banner escondido"></div>
+
+    <script type="module" src="src/main.ts"></script>
+  </body>
+</html>

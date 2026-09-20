@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Orbe Alvazir - Gerador de Contra-Senhas</title>
+    <link rel="stylesheet" href="src/styles/main.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Orbe Alvazir</h1>
+      <p class="subtitulo">Gerador de contra-senhas</p>
+
+      <div class="input-area">
+        <button id="btn-colar" class="btn-acao" title="Colar">↘️</button>
+        <input
+          type="text"
+          id="input-senha"
+          placeholder="Insira senha de ativação"
+          maxlength="8"
+        />
+        <button id="btn-limpar" class="btn-acao" title="Limpar">❌</button>
+        <button id="btn-gerar" class="btn-acao" title="Gerar">✅</button>
+      </div>
+
+      <div id="aviso-erro" class="aviso escondido"></div>
+
+      <div id="contrassenhas-container" style="display: none;">
+        <div class="senha-exibicao">
+          <input type="text" id="senha-exibida" disabled style="width: 100%; margin-bottom: 16px;" />
+        </div>
+
+        <div id="lista-contrassenhas"></div>
+      </div>
+    </div>
+
+    <footer class="rodape">
+      Orbe Escolar versão 1.0.0 com banco de dados teste - Contato 11 978831938
+    </footer>
+
+    <script type="module" src="src/main.ts"></script>
+  </body>
+</html>

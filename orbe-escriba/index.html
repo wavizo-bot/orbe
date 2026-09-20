@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbe Escriba - Criação de Banco de Dados</title>
+    <link rel="stylesheet" href="src/styles/main.css" />
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <body>
+    <!-- Menu Principal -->
+    <div id="menu-principal" class="tela">
+      <div class="container">
+        <h1>Orbe Escriba</h1>
+        <p class="subtitulo">Criação de banco de dados escolar</p>
+        
+        <div class="botoes-grid">
+          <button class="btn-menu" data-tela="estatisticas">📊 Estatísticas</button>
+          <button class="btn-menu" data-tela="cadastro">👤 Cadastro</button>
+          <button class="btn-menu" data-tela="importar">👥 Importar</button>
+          <button class="btn-menu" data-tela="fotos">📷 Fotos</button>
+          <button class="btn-menu" data-tela="mensagens">💬 Mensagens</button>
+          <button class="btn-menu" data-tela="exportar">📤 Exportar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estatísticas -->
+    <div id="estatisticas" class="tela escondida">
+      <button class="btn-voltar" data-voltar="menu-principal">⬅️ VOLTAR</button>
+      <div class="container">
+        <h2>Estatísticas</h2>
+        <div class="stats-box">
+          <div class="stat-linha">
+            <span>Alunos</span>
+            <span id="stat-alunos">0</span>
+          </div>
+          <div class="stat-linha">
+            <span>Alunos com foto</span>
+            <span id="stat-fotos">0</span>
+          </div>
+          <div class="stat-linha">
+            <span>Salas</span>
+            <span id="stat-salas">0</span>
+          </div>
+          <div class="stat-linha">
+            <span>Turmas</span>
+            <span id="stat-turmas">0</span>
+          </div>
+          <div class="stat-linha">
+            <span>Turnos</span>
+            <span id="stat-turnos">0</span>
+          </div>
+          <div class="stat-linha">
+            <span>Professoras</span>
+            <span id="stat-professoras">0</span>
+          </div>
+          <div class="stat-linha">
+            <span>Auxiliares</span>
+            <span id="stat-auxiliares">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cadastro -->
+    <div id="cadastro" class="tela escondida">
+      <button class="btn-voltar" data-voltar="menu-principal">⬅️ VOLTAR</button>
+      <div class="container">
+        <h2>Cadastro Individual</h2>
+        <form id="form-cadastro">
+          <div class="form-row">
+            <label>Nome completo *</label>
+            <input type="text" id="cad-nome" required />
+          </div>
+
+          <div class="form-row form-cols-2">
+            <div>
+              <label>Nome responsável 1</label>
+              <input type="text" id="cad-mae" />
+            </div>
+            <div>
+              <label>Nome responsável 2</label>
+              <input type="text" id="cad-pai" />
+            </div>
+          </div>
+
+          <div class="form-row form-cols-2">
+            <div>
+              <label>Tel responsável 1</label>
+              <input type="tel" id="cad-tel1" />
+            </div>
+            <div>
+              <label>Tel responsável 2</label>
+              <input type="tel" id="cad-tel2" />
+            </div>
+          </div>
+
+          <div class="form-row form-cols-2">
+            <div>
+              <label>Info 1 (até 60 caracteres)</label>
+              <input type="text" id="cad-info1" maxlength="60" />
+            </div>
+            <div>
+              <label>Info 2 (até 60 caracteres)</label>
+              <input type="text" id="cad-info2" maxlength="60" />
+            </div>
+          </div>
+
+          <div class="form-row form-cols-2">
+            <div>
+              <label>Data de nascimento (DD/MM/AAAA)</label>
+              <input type="date" id="cad-dn" />
+            </div>
+            <div>
+              <label>Ano/Série *</label>
+              <input type="text" id="cad-ano" placeholder="1º, 2º, etc" required />
+            </div>
+          </div>
+
+          <div class="form-row form-cols-2">
+            <div>
+              <label>Sala *</label>
+              <input type="text" id="cad-sala" required />
+            </div>
+            <div>
+              <label>Turno *</label>
+              <select id="cad-turno" required>
+                <option value="">Selecione</option>
+                <option value="manhã">Manhã</option>
+                <option value="tarde">Tarde</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row form-cols-2">
+            <div>
+              <label>Professora *</label>
+              <select id="cad-professora" required>
+                <option value="">Selecione</option>
+              </select>
+            </div>
+            <div>
+              <label>Auxiliar</label>
+              <select id="cad-auxiliar">
+                <option value="">Nenhum</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row form-cols-2">
+            <div>
+              <label>Registro acadêmico (RA) *</label>
+              <input type="text" id="cad-ra" required />
+            </div>
+            <div>
+              <label>Foto</label>
+              <input type="file" id="cad-foto" accept="image/*" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary">Salvar cadastro</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Importar -->
+    <div id="importar" class="tela escondida">
+      <button class="btn-voltar" data-voltar="menu-principal">⬅️ VOLTAR</button>
+      <div class="container">
+        <h2>Importar Alunos</h2>
+        
+        <div class="import-area">
+          <h3>Opção 1: Colar Dados</h3>
+          <textarea id="import-texto" placeholder="Cole aqui dados em CSV, TSV ou similar..." rows="8"></textarea>
+          <button class="btn-secondary" id="btn-importar-texto">Importar colagem</button>
+        </div>
+
+        <div class="import-area">
+          <h3>Opção 2: Arquivo Planilha</h3>
+          <input type="file" id="import-planilha" accept=".xls,.xlsx,.ods,.csv,.tsv,.txt" />
+          <button class="btn-secondary" id="btn-importar-planilha">Escolher planilha</button>
+        </div>
+
+        <div id="import-resultado" class="resultado-importacao escondido"></div>
+      </div>
+    </div>
+
+    <!-- Fotos -->
+    <div id="fotos" class="tela escondida">
+      <button class="btn-voltar" data-voltar="menu-principal">⬅️ VOLTAR</button>
+      <div class="container">
+        <h2>Gerenciar Fotos</h2>
+        
+        <div class="upload-area">
+          <h3>Fotos de Alunos</h3>
+          <p>Formatos: AVIF, WebP, JPG, PNG | Tamanho: máx 80 KB | Nomeie com o RA do aluno</p>
+          <input type="file" id="upload-fotos" accept="image/*" multiple />
+          <button class="btn-secondary" id="btn-upload-fotos">Importar imagens</button>
+        </div>
+
+        <div class="upload-area">
+          <h3>Imagens Institucionais</h3>
+          <p>Nomeie como: institucional1 ou institucional2</p>
+          <input type="file" id="upload-institucional" accept="image/*" multiple />
+          <button class="btn-secondary" id="btn-upload-institucional">Importar imagens</button>
+        </div>
+
+        <div class="upload-area">
+          <h3>Importar de ZIP</h3>
+          <input type="file" id="import-zip-fotos" accept=".zip" />
+          <button class="btn-secondary" id="btn-import-zip-fotos">Importar ZIP</button>
+        </div>
+
+        <div id="fotos-resultado" class="resultado-importacao escondido"></div>
+      </div>
+    </div>
+
+    <!-- Mensagens -->
+    <div id="mensagens" class="tela escondida">
+      <button class="btn-voltar" data-voltar="menu-principal">⬅️ VOLTAR</button>
+      <div class="container">
+        <h2>Mensagens aos Responsáveis</h2>
+        
+        <div id="mensagens-container">
+          <div class="mensagem-item">
+            <textarea placeholder="Insira a mensagem aos responsáveis aqui"></textarea>
+            <button type="button" class="btn-remover-msg">❌</button>
+          </div>
+        </div>
+
+        <button id="btn-add-mensagem" class="btn-secondary">➕ Adicionar campo</button>
+
+        <div class="hint">
+          <p><strong>Etiquetas disponíveis:</strong></p>
+          <p>{nome_mae}, {nome_pai}, {nome_aluno}, {dn}, {idade}, {ano}, {turma}, {turno}, {nome_professora}, {nome_auxiliar}, {tel1}, {tel2}, {info_1}, {info_2}, {IDescolar}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exportar -->
+    <div id="exportar" class="tela escondida">
+      <button class="btn-voltar" data-voltar="menu-principal">⬅️ VOLTAR</button>
+      <div class="container">
+        <h2>Exportar Dados</h2>
+        
+        <div class="export-opcoes">
+          <button class="btn-secondary" id="btn-senha-export">🔐 Incluir senha</button>
+          <button class="btn-secondary" id="btn-admin-export">🔢 Número administrativo</button>
+          <button class="btn-primary" id="btn-exportar-zip">📤 Exportar ZIP</button>
+          <button class="btn-danger" id="btn-apagar-tudo">🗑️ Apagar todos os dados</button>
+        </div>
+
+        <div id="export-status"></div>
+      </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer id="rodape" class="rodape">
+      Orbe Escolar versão 1.0.0 com banco de dados teste - Contato 11 978831938
+    </footer>
+
+    <!-- Modal Genérico -->
+    <div id="modal" class="modal escondido">
+      <div class="modal-content">
+        <h2 id="modal-titulo"></h2>
+        <div id="modal-corpo"></div>
+        <div class="modal-botoes">
+          <button id="modal-cancelar" class="btn-secondary">Cancelar</button>
+          <button id="modal-confirmar" class="btn-primary">Confirmar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner -->
+    <div id="banner" class="banner escondido"></div>
+
+    <script type="module" src="src/main.ts"></script>
+  </body>
+</html>

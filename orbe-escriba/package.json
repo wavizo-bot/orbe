@@ -1,0 +1,23 @@
+{
+  "name": "orbe-escriba",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@orbe/compartilhado": "workspace:*",
+    "dexie": "^4.0.0",
+    "fflate": "^0.8.1",
+    "papaparse": "^5.4.1",
+    "sheetjs": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/papaparse": "^5.3.14",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
+  }
+}

@@ -1,0 +1,142 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --cor-sucesso: #4CAF50;
+  --cor-erro: #f44336;
+  --cor-borda: #ddd;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #fafafa;
+  color: #212121;
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #757575;
+  margin-bottom: 24px;
+}
+
+.input-area {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.btn-acao {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  padding: 8px;
+  width: 40px;
+}
+
+.aviso {
+  background-color: var(--cor-erro);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.aviso.escondido {
+  display: none;
+}
+
+.senha-exibicao {
+  margin-bottom: 24px;
+}
+
+.senha-exibicao input {
+  font-weight: bold;
+  letter-spacing: 2px;
+  background-color: #f5f5f5;
+}
+
+#lista-contrassenhas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contrassenha-item {
+  background-color: white;
+  border: 1px solid var(--cor-borda);
+  border-left: 4px solid var(--cor-sucesso);
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contrassenha-info h3 {
+  font-size: 12px;
+  color: #757575;
+  margin-bottom: 4px;
+}
+
+.contrassenha-info .valor {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: monospace;
+}
+
+.contrassenha-info .prazo {
+  font-size: 11px;
+  color: var(--cor-sucesso);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.btn-copiar {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  padding: 4px 8px;
+}
+
+/* Rodapé */
+.rodape {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-top: 1px solid var(--cor-borda);
+  padding: 8px 16px;
+  font-size: 11px;
+  text-align: center;
+  color: #757575;
+}

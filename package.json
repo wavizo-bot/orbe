@@ -1,0 +1,21 @@
+{
+  "name": "orbe-escolar",
+  "version": "1.0.0",
+  "description": "Projeto Orbe - PWAs offline-first para gestão escolar",
+  "type": "module",
+  "workspaces": [
+    "orbe-escriba",
+    "orbe-app",
+    "orbe-arauto",
+    "orbe-alvazir",
+    "compartilhado"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w orbe-escriba\" \"npm run dev -w orbe-app\" \"npm run dev -w orbe-arauto\" \"npm run dev -w orbe-alvazir\"",
+    "build": "npm run build -w orbe-escriba && npm run build -w orbe-app && npm run build -w orbe-arauto && npm run build -w orbe-alvazir",
+    "preview": "concurrently \"npm run preview -w orbe-escriba\" \"npm run preview -w orbe-app\" \"npm run preview -w orbe-arauto\" \"npm run preview -w orbe-alvazir\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
