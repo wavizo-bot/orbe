@@ -125,8 +125,8 @@ function renderizarCartoes(listaIDunico: string[]) {
             window.open(url, "_blank");
 
             cartao.className = "cartao-arauto azul";
-            cartao.querySelector(".btn-copiar")!.style.display = "none";
-            cartao.querySelector(".btn-enviar")!.style.display = "none";
+            (cartao.querySelector(".btn-copiar") as HTMLElement)!.style.display = "none";
+            (cartao.querySelector(".btn-enviar") as HTMLElement)!.style.display = "none";
           }
         );
       });

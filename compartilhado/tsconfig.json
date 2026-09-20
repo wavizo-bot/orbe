@@ -13,10 +13,12 @@
     "strictFunctionTypes": true,
     "resolveJsonModule": true,
     "moduleResolution": "node",
-    "paths": {
-      "@orbe/*": ["../compartilhado/src/*"]
-    }
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "composite": true
   },
   "include": ["src"],
-  "references": [{ "path": "../compartilhado/tsconfig.json" }]
+  "exclude": ["node_modules", "dist"]
 }

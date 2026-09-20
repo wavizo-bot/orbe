@@ -1,5 +1,5 @@
 import * as Papa from "papaparse";
-import * as XLSX from "sheetjs";
+import * as XLSX from "xlsx";
 import { compress, decompress } from "fflate";
 import {
   Aluno,
@@ -247,6 +247,70 @@ async function detectorExtensaoImagem(blob: Blob): Promise<string | null> {
 }
 
 /**
+ * Importa dados diretamente do JSON gerado pelo seed
+ */
+export async function importarDoSeedJSON(
+  dadosSeed: {
+    alunos: any[];
+    professoras: any[];
+    auxiliares: any[];
+    mensagens?: any[];
+    config?: any;
+  }
+): Promise<{ sucesso: boolean; erro?: string }> {
+  try {
+    // Mapeia professores do formato seed para o formato do sistema
+    const professorasMapeadas = dadosSeed.professoras.map((p) => ({
+      id: p.id,
+      nome: p.nome,
+      email: p.email || "",
+      telefone: p.telefone || "",
+    }));
+
+    // Mapeia auxiliares
+    const auxiliaresMapeados = dadosSeed.auxiliares.map((a) => ({
+      id: a.id,
+      nome: a.nome,
+      email: a.email || "",
+      telefone: a.telefone || "",
+    }));
+
+    // Mapeia alunos do formato seed para o formato do sistema
+    const alunosMapeados = dadosSeed.alunos.map((aluno) => ({
+      IDunico: aluno.IDunico,
+      IDescolar: aluno.IDescolar,
+      nome: aluno.nome,
+      info_1: aluno.observacoes || "",
+      info_2: "",
+      nome_mae: "",
+      nome_pai: "",
+      tel1: "",
+      tel2: "",
+      dn: "",
+      ano: String(aluno.ano),
+      sala: aluno.turma,
+      turno: aluno.turno,
+      id_professora: aluno.professoraId,
+      id_auxiliar: aluno.auxiliarId,
+      tem_foto: false,
+    }));
+
+    // Carrega no banco
+    await db.carregarDoJSON({
+      alunos: alunosMapeados,
+      professoras: professorasMapeadas,
+      auxiliares: auxiliaresMapeados,
+      mensagens: dadosSeed.mensagens || [],
+      config: dadosSeed.config || undefined,
+    });
+
+    return { sucesso: true };
+  } catch (e) {
+    return { sucesso: false, erro: `Erro ao importar dados: ${String(e)}` };
+  }
+}
+
+/**
  * Importa ZIP (para app consumidor)
  */
 export async function importarDeZIP(
@@ -290,15 +354,15 @@ export async function importarDeZIP(
     });
 
     // Processa fotos
-    for (const [chave, dados] of Object.entries(dados)) {
+    for (const [chave, bytes] of Object.entries(dados)) {
       if (chave.startsWith("fotos/")) {
         const IDunico = chave.replace("fotos/", "").split(".")[0];
-        const blob = new Blob([dados]);
+        const blob = new Blob([bytes.buffer as ArrayBuffer]);
         await db.fotos.put({ IDunico, dados: blob });
       }
       if (chave.startsWith("institucional/")) {
         const nome = chave.replace("institucional/", "").split(".")[0];
-        const blob = new Blob([dados]);
+        const blob = new Blob([bytes.buffer as ArrayBuffer]);
         await db.imagensInstitucionais.put({ nome, dados: blob });
       }
     }

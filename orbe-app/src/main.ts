@@ -32,6 +32,13 @@ let historicoAlunos: string[] = [];
 let conferenciaSelecionada: Set<string> = new Set();
 let imagensInstitucionais: Map<string, Blob> = new Map();
 
+// Declaração global para a função de navegação com histórico
+declare global {
+  interface Window {
+    trocarTelaComHistorico?: (tela: string) => void;
+  }
+}
+
 // ==== Utilidades ====
 
 function gerarOuCarregarDeviceId(): string {
@@ -62,7 +69,16 @@ function trocarTela(novaTela: string) {
   const el = document.getElementById(`tela-${novaTela}`);
   if (el) {
     el.classList.remove("escondida");
+    // Reinicia animação de entrada
+    el.style.animation = 'none';
+    el.offsetHeight; // trigger reflow
+    el.style.animation = '';
     telaAtual = novaTela;
+    
+    // Scroll para o topo em mobile
+    if (window.innerWidth < 768) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 }
 
@@ -563,15 +579,15 @@ async function importarZIP(arquivo: File) {
     });
 
     // Processa fotos
-    for (const [chave, dados] of Object.entries(dados)) {
+    for (const [chave, bytes] of Object.entries(dados)) {
       if (chave.startsWith("fotos/")) {
         const IDunico = chave.replace("fotos/", "").split(".")[0];
-        const blob = new Blob([dados]);
+        const blob = new Blob([bytes.buffer as ArrayBuffer]);
         await db.fotos.put({ IDunico, dados: blob });
       }
       if (chave.startsWith("institucional/")) {
         const nome = chave.replace("institucional/", "").split(".")[0];
-        const blob = new Blob([dados]);
+        const blob = new Blob([bytes.buffer as ArrayBuffer]);
         await db.imagensInstitucionais.put({ nome, dados: blob });
       }
     }
@@ -620,13 +636,43 @@ async function inicializar() {
     });
   });
 
-  // Botões voltar
+  // Botões voltar - com tratamento para botão físico de dispositivos móveis
   document.querySelectorAll("[data-voltar]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const tela = (e.target as HTMLElement).getAttribute("data-voltar");
       if (tela) trocarTela(tela);
     });
   });
+
+  // Histórico de navegação para botão voltar do dispositivo
+  const historicoNavegacao: string[] = ['menu'];
+  
+  // Atualiza histórico quando muda de tela
+  const trocarTelaOriginal = trocarTela;
+  window.trocarTelaComHistorico = function(novaTela: string) {
+    if (novaTela !== telaAtual) {
+      historicoNavegacao.push(novaTela);
+      trocarTelaOriginal(novaTela);
+    }
+  };
+  
+  // Intercepta botão voltar físico em Android/iOS
+  window.addEventListener('popstate', (event) => {
+    if (historicoNavegacao.length > 1) {
+      historicoNavegacao.pop(); // Remove tela atual
+      const telaAnterior = historicoNavegacao[historicoNavegacao.length - 1];
+      trocarTelaOriginal(telaAnterior);
+    } else if (telaAtual !== 'menu' && autenticado) {
+      trocarTelaOriginal('menu');
+    }
+  });
+  
+  // Adiciona entrada no histórico do browser ao navegar
+  function adicionarAoHistoricoBrowser(tela: string) {
+    if (window.history.state?.tela !== tela) {
+      window.history.pushState({ tela }, '', `#${tela}`);
+    }
+  }
 
   // Autenticação
   document

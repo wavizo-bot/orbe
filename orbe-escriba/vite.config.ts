@@ -11,4 +11,9 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: true,
   },
+  resolve: {
+    alias: {
+      "@orbe": resolve(__dirname, "../compartilhado/src"),
+    },
+  },
 });
